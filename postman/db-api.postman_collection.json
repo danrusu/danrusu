@@ -1,0 +1,40 @@
+{
+	"info": {
+		"_postman_id": "69c6a2fd-77df-4be5-bc28-6c0ec582c96d",
+		"name": "db-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "select",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"sqlConfig\": {\n    \t\"user\": \"username\",\n    \t\"password\": \"*****\",\n    \t\"server\": \"dbserver\",\n    \t\"database\": \"DatabaseName\"\n\t},\n\t\n\t\"query\": \"SELECT FROM x\" \n}"
+				},
+				"url": {
+					"raw": "http://localhost:1111/db-api/select",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1111",
+					"path": [
+						"db-api",
+						"select"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
