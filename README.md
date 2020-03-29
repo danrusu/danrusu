@@ -1,2 +1,1 @@
-# danrusu
-db-api
+# Node & Express REST API for Database queries
