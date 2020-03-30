@@ -12,14 +12,6 @@ app.use(bodyParser.text());
 const args = process.argv.slice();
 const port = args[2] ? args[2] : 1111;
 
-const isJsonBody = (req, res) => {
-   if (req.headers['content-type'] != 'application/json'){ 
-        res.status(500).send('Only JSON is supported!');
-        return false;
-   }
-   return true;
-};
-
 const returnMssqlQueryResult = async (sqlConfig, query, res) => {
 
     const { user, password, server, database } = sqlConfig;
@@ -47,7 +39,7 @@ const returnMssqlQueryResult = async (sqlConfig, query, res) => {
 };
 
 // routes
-app.post('/db-api/select', (req, res) => {
+app.post('/db-api/mssql', (req, res) => {
     if (req.headers['content-type'] != 'application/json'){ 
         res.status(500).send('Only JSON is supported!');
         return false;
@@ -58,7 +50,7 @@ app.post('/db-api/select', (req, res) => {
    }
 });
 
-app.post('/db-api/text', (req, res) => {
+app.post('/db-api/query', (req, res) => {
     if (req.headers['content-type'] != 'text/plain'){ 
         res.status(500).send('Only TEXT is supported!');
         return false;
