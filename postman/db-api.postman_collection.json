@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "setup",
+			"name": "mssql setup",
 			"event": [
 				{
 					"listen": "test",
@@ -14,10 +14,10 @@
 						"id": "bc0c2319-5721-449e-90ea-fa0e5444bb62",
 						"exec": [
 							"const InventoryOnline_testing20_sqlConfig = {",
-							"    user: \"*****\",",
-							"    password: *****,",
-							"    server: \"*****\",",
-							"    database: \"*****0\"",
+							"    user: \"*\",",
+							"    password: \"*\",",
+							"    server: \"*\",",
+							"    database: \"*\"",
 							"};",
 							"",
 							"pm.globals.set('InventoryOnline_testing20_sqlConfig', JSON.stringify(InventoryOnline_testing20_sqlConfig));",
@@ -43,7 +43,7 @@
 			"response": []
 		},
 		{
-			"name": "get sql query text",
+			"name": "mssql get query text",
 			"event": [
 				{
 					"listen": "test",
@@ -95,17 +95,17 @@
 			"response": []
 		},
 		{
-			"name": "execute sql query",
+			"name": "mssql",
 			"event": [
 				{
 					"listen": "prerequest",
 					"script": {
 						"id": "a6c18f1f-ea46-4cdf-a6a7-dcc3384cc9ef",
 						"exec": [
-							"const sqlConfig = JSON.parse(pm.globals.get('InventoryOnline_testing20_sqlConfig'));",
+							"const mssqlConfig = JSON.parse(pm.globals.get('InventoryOnline_testing20_sqlConfig'));",
 							"const query = pm.globals.get('sqlQuery');",
 							"",
-							"const body = { sqlConfig, query };",
+							"const body = { mssqlConfig, query };",
 							"",
 							"pm.globals.set('body', JSON.stringify(body, null, 2));",
 							"",
@@ -141,6 +141,51 @@
 					"path": [
 						"db-api",
 						"mssql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "mysql",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a6c18f1f-ea46-4cdf-a6a7-dcc3384cc9ef",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"mysqlConfig\": {\n    \t\"user\": \"danrusur_tester\",\n    \t\"password\": \"test@passw0rd\",\n    \t\"host\": \"qatools.ro\",\n    \t\"database\": \"danrusur_test_mysql\",\n    \t\"port\": 3306\n\t},\n\t\n\t\"query\": \"SELECT * FROM books;\"\n}\n\n",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1111/db-api/mysql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1111",
+					"path": [
+						"db-api",
+						"mysql"
 					]
 				}
 			},
