@@ -6,6 +6,43 @@
 	},
 	"item": [
 		{
+			"name": "setup",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bc0c2319-5721-449e-90ea-fa0e5444bb62",
+						"exec": [
+							"const InventoryOnline_testing20_sqlConfig = {",
+							"    user: \"*****\",",
+							"    password: *****,",
+							"    server: \"*****\",",
+							"    database: \"*****0\"",
+							"};",
+							"",
+							"pm.globals.set('InventoryOnline_testing20_sqlConfig', JSON.stringify(InventoryOnline_testing20_sqlConfig));",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "HEAD",
+				"header": [],
+				"url": {
+					"raw": "https://google.ro",
+					"protocol": "https",
+					"host": [
+						"google",
+						"ro"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "get sql query text",
 			"event": [
 				{
@@ -43,7 +80,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:1111/db-api/text",
+					"raw": "http://localhost:1111/db-api/query",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -51,7 +88,7 @@
 					"port": "1111",
 					"path": [
 						"db-api",
-						"text"
+						"query"
 					]
 				}
 			},
@@ -95,7 +132,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:1111/db-api/select",
+					"raw": "http://localhost:1111/db-api/mssql",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -103,7 +140,7 @@
 					"port": "1111",
 					"path": [
 						"db-api",
-						"select"
+						"mssql"
 					]
 				}
 			},
@@ -117,15 +154,6 @@
 				"id": "cc0430f6-c507-46b9-b21d-a9ebda4cc4fd",
 				"type": "text/javascript",
 				"exec": [
-					"const InventoryOnline_testing20_sqlConfig = {",
-					"    user: \"*****\",",
-					"    password: \"*****\",",
-					"    server: \"*****\",",
-					"    database: \"*****\"",
-					"};",
-					"",
-					"pm.globals.set('InventoryOnline_testing20_sqlConfig', JSON.stringify(InventoryOnline_testing20_sqlConfig));",
-					"",
 					""
 				]
 			}
