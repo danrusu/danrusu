@@ -36,11 +36,13 @@ const returnMssqlQueryResult = async (sqlConfig, query, res) => {
         
         res.type('json');
         res.end(JSON.stringify(result)); // Result in JSON format
-       
-        await sql.close();
+       s
     }
     catch(err){
         res.status(500).send(`Database error - ${err}`);
+    }
+    finally{
+        await sql.close();
     }
 };
 
