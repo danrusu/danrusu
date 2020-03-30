@@ -1,8 +1,11 @@
 const express = require('express'); 
 const app = express();
 const sql = require('mssql');
+const bodyParser = require('body-parser');
 
 app.use(express.json());
+app.use(bodyParser.raw());
+app.use(bodyParser.text());
 
 // Start server and listen on http://localhost:1111/ by default.
 // Port can be passed as first CLI argument.
@@ -11,39 +14,55 @@ const port = args[2] ? args[2] : 1111;
 
 const isJsonBody = (req, res) => {
    if (req.headers['content-type'] != 'application/json'){ 
-        res.status(500).send("Only JSON is supported!");
+        res.status(500).send('Only JSON is supported!');
         return false;
    }
    return true;
 };
 
-const returnMssqlQueryResult = (sqlConfig, query, res) => {
+const returnMssqlQueryResult = async (sqlConfig, query, res) => {
+
+    const { user, password, server, database } = sqlConfig;
+    const connectionString = `mssql://${user}:${password}@${server}/${database}`;
+
     console.log(`sqlConfig: ${JSON.stringify(sqlConfig, null, 2)}`);
+    console.log(`connectionString: ${connectionString}`);
     console.log(`Executing MSSQL query: \n"${query}"`);
     
-    sql.connect(sqlConfig, () => {
-        const sqlRequest = new sql.Request();
-        sqlRequest.query(query, (err, recordset) => {
-            if (err){
-                res.status(500).send(`Database error - ${err}`);
-            } 
-            else{
-                res.type('json');
-                res.end(JSON.stringify(recordset)); // Result in JSON format
-            }
-        });
-    });
+    try {
+        await sql.connect(connectionString);
+        
+        result = await sql.query(query)   
+        
+        res.type('json');
+        res.end(JSON.stringify(result)); // Result in JSON format
+       
+        await sql.close();
+    }
+    catch(err){
+        res.status(500).send(`Database error - ${err}`);
+    }
 };
 
 // routes
 app.post('/db-api/select', (req, res) => {
     if (req.headers['content-type'] != 'application/json'){ 
-        res.status(500).send("Only JSON is supported!");
+        res.status(500).send('Only JSON is supported!');
         return false;
     }
     else{
         const { query, sqlConfig } = req.body;
         returnMssqlQueryResult(sqlConfig, query, res);
+   }
+});
+
+app.post('/db-api/text', (req, res) => {
+    if (req.headers['content-type'] != 'text/plain'){ 
+        res.status(500).send('Only TEXT is supported!');
+        return false;
+    }
+    else{
+        res.send(req.body);
    }
 });
 

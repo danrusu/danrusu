@@ -6,7 +6,78 @@
 	},
 	"item": [
 		{
-			"name": "select",
+			"name": "get sql query text",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "28429614-2b28-4d00-9032-64e8d89fe909",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    ",
+							"    pm.globals.set('sqlQuery', pm.response.text());",
+							"    ",
+							"    console.log(`Set global sqlQuery=\\n${pm.globals.get('sqlQuery')}`);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "IF NOT EXISTS (SELECT 1 FROM BETAFEATURES WHERE VirtualRooftopID=2150293 AND FEATURENAME like 'CommonSignIn%')\nBEGIN\n    INSERT INTO BETAFEATURES\n    (DateCreated,CreatedByUserID,DateModified,ModifiedByUserID,FeatureName,VirtualRooftopID)\n    VALUES\n    (GETDATE(),1,GETDATE(),1,'CommonSignIn_10/22/2019',2150293)\nEND\n\n  IF NOT EXISTS (SELECT 1 FROM BETAFEATURES WHERE VirtualRooftopID=2150289 AND FEATURENAME like 'CommonSignIn%')\nBEGIN\n    INSERT INTO BETAFEATURES\n    (DateCreated,CreatedByUserID,DateModified,ModifiedByUserID,FeatureName,VirtualRooftopID)\n    VALUES\n    (GETDATE(),1,GETDATE(),1,'CommonSignIn_10/22/2019',2150289)\nEND\n\n  IF NOT EXISTS (SELECT 1 FROM BETAFEATURES WHERE VirtualRooftopID=2150290 AND FEATURENAME like 'CommonSignIn%')\nBEGIN\n    INSERT INTO BETAFEATURES\n    (DateCreated,CreatedByUserID,DateModified,ModifiedByUserID,FeatureName,VirtualRooftopID)\n    VALUES\n    (GETDATE(),1,GETDATE(),1,'CommonSignIn_10/22/2019',2150290)\nEND\n\n  IF NOT EXISTS (SELECT 1 FROM BETAFEATURES WHERE VirtualRooftopID=2150294 AND FEATURENAME like 'CommonSignIn%')\nBEGIN\n    INSERT INTO BETAFEATURES\n    (DateCreated,CreatedByUserID,DateModified,ModifiedByUserID,FeatureName,VirtualRooftopID)\n    VALUES\n    (GETDATE(),1,GETDATE(),1,'CommonSignIn_10/22/2019',2150294)\nEND\n\n  IF NOT EXISTS (SELECT 1 FROM BETAFEATURES WHERE VirtualRooftopID=1003 AND FEATURENAME like 'CommonSignIn%')\nBEGIN\n    INSERT INTO BETAFEATURES\n    (DateCreated,CreatedByUserID,DateModified,ModifiedByUserID,FeatureName,VirtualRooftopID)\n    VALUES\n    (GETDATE(),1,GETDATE(),1,'CommonSignIn_10/22/2019',1003)\nEND\n\nUPDATE Logins\nSet ExternalIdentifier = '11111-22222-33333'\nWHERE Username = 'readyAPI_Bridge' \n\n  Update Users\n  Set IsDefaultUser = 1\n  WHERE CachedLoginUsername like '%readyAPI_Organization%'\n\n",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:1111/db-api/text",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1111",
+					"path": [
+						"db-api",
+						"text"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "execute sql query",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a6c18f1f-ea46-4cdf-a6a7-dcc3384cc9ef",
+						"exec": [
+							"const sqlConfig = JSON.parse(pm.globals.get('InventoryOnline_testing20_sqlConfig'));",
+							"const query = pm.globals.get('sqlQuery');",
+							"",
+							"const body = { sqlConfig, query };",
+							"",
+							"pm.globals.set('body', JSON.stringify(body, null, 2));",
+							"",
+							"console.log(`Set global body=\\n${pm.globals.get('body')}`);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -18,7 +89,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"sqlConfig\": {\n    \t\"user\": \"username\",\n    \t\"password\": \"*****\",\n    \t\"server\": \"dbserver\",\n    \t\"database\": \"DatabaseName\"\n\t},\n\t\n\t\"query\": \"SELECT FROM x\" \n}"
+					"raw": "{{body}}",
+					"options": {
+						"raw": {}
+					}
 				},
 				"url": {
 					"raw": "http://localhost:1111/db-api/select",
@@ -34,6 +108,37 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "cc0430f6-c507-46b9-b21d-a9ebda4cc4fd",
+				"type": "text/javascript",
+				"exec": [
+					"const InventoryOnline_testing20_sqlConfig = {",
+					"    user: \"*****\",",
+					"    password: \"*****\",",
+					"    server: \"*****\",",
+					"    database: \"*****\"",
+					"};",
+					"",
+					"pm.globals.set('InventoryOnline_testing20_sqlConfig', JSON.stringify(InventoryOnline_testing20_sqlConfig));",
+					"",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "202fd788-8db8-468c-bbb8-6a9d2baead7b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	],
 	"protocolProfileBehavior": {}
