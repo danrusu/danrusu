@@ -1,5 +1,5 @@
 {
-  "name": "db-api",
+  "name": "rest-sql",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -16,13 +16,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/danrusu/db-api.git"
+    "url": "git+https://github.com/danrusu/rest-sql.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "qatools.ro",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/danrusu/db-api/issues"
+    "url": "https://github.com/danrusu/rest-sql/issues"
   },
-  "homepage": "https://github.com/danrusu/db-api#readme"
+  "homepage": "https://github.com/danrusu/rest-sql#readme"
 }
