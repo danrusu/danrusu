@@ -194,7 +194,7 @@
 					"pm.environment.set('URL', 'http://localhost:1111');",
 					"",
 					"// HEROKU",
-					"//pm.environment.set('URL', 'https://rest-sql.herokuapp.com');"
+					"pm.environment.set('URL', 'https://rest-sql.herokuapp.com');"
 				]
 			}
 		},
