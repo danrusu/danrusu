@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "69c6a2fd-77df-4be5-bc28-6c0ec582c96d",
-		"name": "db-api",
+		"_postman_id": "577f6cbb-fea1-4dac-a982-82567df882fe",
+		"name": "rest-sql",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -13,14 +13,14 @@
 					"script": {
 						"id": "bc0c2319-5721-449e-90ea-fa0e5444bb62",
 						"exec": [
-							"const InventoryOnline_testing20_sqlConfig = {",
+							"const mssqlConfig = {",
 							"    user: \"*\",",
 							"    password: \"*\",",
 							"    server: \"*\",",
 							"    database: \"*\"",
 							"};",
 							"",
-							"pm.globals.set('InventoryOnline_testing20_sqlConfig', JSON.stringify(InventoryOnline_testing20_sqlConfig));",
+							"pm.globals.set('mssqlConfig', JSON.stringify(mssqlConfig));",
 							"",
 							""
 						],
@@ -72,7 +72,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "IF NOT EXISTS (SELECT 1 FROM BETAFEATURES WHERE VirtualRooftopID=2150293 AND FEATURENAME like 'CommonSignIn%')\nBEGIN\n    INSERT INTO BETAFEATURES\n    (DateCreated,CreatedByUserID,DateModified,ModifiedByUserID,FeatureName,VirtualRooftopID)\n    VALUES\n    (GETDATE(),1,GETDATE(),1,'CommonSignIn_10/22/2019',2150293)\nEND\n\n  IF NOT EXISTS (SELECT 1 FROM BETAFEATURES WHERE VirtualRooftopID=2150289 AND FEATURENAME like 'CommonSignIn%')\nBEGIN\n    INSERT INTO BETAFEATURES\n    (DateCreated,CreatedByUserID,DateModified,ModifiedByUserID,FeatureName,VirtualRooftopID)\n    VALUES\n    (GETDATE(),1,GETDATE(),1,'CommonSignIn_10/22/2019',2150289)\nEND\n\n  IF NOT EXISTS (SELECT 1 FROM BETAFEATURES WHERE VirtualRooftopID=2150290 AND FEATURENAME like 'CommonSignIn%')\nBEGIN\n    INSERT INTO BETAFEATURES\n    (DateCreated,CreatedByUserID,DateModified,ModifiedByUserID,FeatureName,VirtualRooftopID)\n    VALUES\n    (GETDATE(),1,GETDATE(),1,'CommonSignIn_10/22/2019',2150290)\nEND\n\n  IF NOT EXISTS (SELECT 1 FROM BETAFEATURES WHERE VirtualRooftopID=2150294 AND FEATURENAME like 'CommonSignIn%')\nBEGIN\n    INSERT INTO BETAFEATURES\n    (DateCreated,CreatedByUserID,DateModified,ModifiedByUserID,FeatureName,VirtualRooftopID)\n    VALUES\n    (GETDATE(),1,GETDATE(),1,'CommonSignIn_10/22/2019',2150294)\nEND\n\n  IF NOT EXISTS (SELECT 1 FROM BETAFEATURES WHERE VirtualRooftopID=1003 AND FEATURENAME like 'CommonSignIn%')\nBEGIN\n    INSERT INTO BETAFEATURES\n    (DateCreated,CreatedByUserID,DateModified,ModifiedByUserID,FeatureName,VirtualRooftopID)\n    VALUES\n    (GETDATE(),1,GETDATE(),1,'CommonSignIn_10/22/2019',1003)\nEND\n\nUPDATE Logins\nSet ExternalIdentifier = '11111-22222-33333'\nWHERE Username = 'readyAPI_Bridge' \n\n  Update Users\n  Set IsDefaultUser = 1\n  WHERE CachedLoginUsername like '%readyAPI_Organization%'\n\n",
+					"raw": "...long SQL query",
 					"options": {
 						"raw": {
 							"language": "text"
@@ -80,14 +80,11 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:1111/db-api/query",
-					"protocol": "http",
+					"raw": "{{URL}}/query",
 					"host": [
-						"localhost"
+						"{{URL}}"
 					],
-					"port": "1111",
 					"path": [
-						"db-api",
 						"query"
 					]
 				}
@@ -102,7 +99,7 @@
 					"script": {
 						"id": "a6c18f1f-ea46-4cdf-a6a7-dcc3384cc9ef",
 						"exec": [
-							"const mssqlConfig = JSON.parse(pm.globals.get('InventoryOnline_testing20_sqlConfig'));",
+							"const mssqlConfig = JSON.parse(pm.globals.get('mssqlConfig'));",
 							"const query = pm.globals.get('sqlQuery');",
 							"",
 							"const body = { mssqlConfig, query };",
@@ -132,14 +129,11 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:1111/db-api/mssql",
-					"protocol": "http",
+					"raw": "{{URL}}/mssql",
 					"host": [
-						"localhost"
+						"{{URL}}"
 					],
-					"port": "1111",
 					"path": [
-						"db-api",
 						"mssql"
 					]
 				}
@@ -177,14 +171,11 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:1111/db-api/mysql",
-					"protocol": "http",
+					"raw": "{{URL}}/mysql",
 					"host": [
-						"localhost"
+						"{{URL}}"
 					],
-					"port": "1111",
 					"path": [
-						"db-api",
 						"mysql"
 					]
 				}
@@ -199,7 +190,11 @@
 				"id": "cc0430f6-c507-46b9-b21d-a9ebda4cc4fd",
 				"type": "text/javascript",
 				"exec": [
-					""
+					"// LOCAL",
+					"pm.environment.set('URL', 'http://localhost:1111');",
+					"",
+					"// HEROKU",
+					"//pm.environment.set('URL', 'https://rest-sql.herokuapp.com');"
 				]
 			}
 		},
