@@ -1,26 +1,30 @@
 'use strict';
 
-const mssqlClient = require('mssql');
+const { Pool } = require('pg');
+
 
 const returnQueryResult = async (sqlConfig, query, res) => {   
 
     console.log(
-        `\nmssqlConfig: ${JSON.stringify(sqlConfig, null, 2)}`    
+        `\npostgresqlConfig: ${JSON.stringify(sqlConfig, null, 2)}`    
         + `\nquery: \n"${query}"`);
     
+    var client;
     try {
-        await mssqlClient.connect(sqlConfig);        
-        const result = await mssqlClient.query(query);
+        const pool = new Pool(sqlConfig);  
+        postgresClient = await pool.connect()
+        
+        const result = await postgresClient.query(query);
         
         res.type('json');
-        res.end(JSON.stringify(result)); // Result in JSON format
+        res.end(JSON.stringify(result));        
     }
     catch(err){
         console.log(err);
         res.status(500).send(`Database error - ${err}`);
     }
     finally{
-        await mssqlClient.close();
+        if (client) client.release()
     }
 };
 
@@ -30,8 +34,8 @@ const requestHandler = (req, res) => {
         return false;
     }
     else{
-        const { query, mssqlConfig } = req.body;
-        returnQueryResult(mssqlConfig, query, res);
+        const { query, postgresConfig } = req.body;
+        returnQueryResult(postgresConfig, query, res);
    }
 };
 
