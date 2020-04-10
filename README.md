@@ -9,3 +9,6 @@ npm start
 ```
 
 ### [Postman demo](postman)
+
+### Heroku
+https://rest-sql.herokuapp.com/
