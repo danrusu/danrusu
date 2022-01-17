@@ -1,213 +1,194 @@
 {
-	"info": {
-		"_postman_id": "577f6cbb-fea1-4dac-a982-82567df882fe",
-		"name": "rest-sql",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "mssql setup",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "bc0c2319-5721-449e-90ea-fa0e5444bb62",
-						"exec": [
-							"const mssqlConfig = {",
-							"    user: \"*\",",
-							"    password: \"*\",",
-							"    server: \"*\",",
-							"    database: \"*\"",
-							"};",
-							"",
-							"pm.globals.set('mssqlConfig', JSON.stringify(mssqlConfig));",
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "HEAD",
-				"header": [],
-				"url": {
-					"raw": "https://google.ro",
-					"protocol": "https",
-					"host": [
-						"google",
-						"ro"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "mssql get query text",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "28429614-2b28-4d00-9032-64e8d89fe909",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"    ",
-							"    pm.globals.set('sqlQuery', pm.response.text());",
-							"    ",
-							"    console.log(`Set global sqlQuery=\\n${pm.globals.get('sqlQuery')}`);",
-							"});",
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"protocolProfileBehavior": {
-				"disabledSystemHeaders": {}
-			},
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "...long SQL query",
-					"options": {
-						"raw": {
-							"language": "text"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{URL}}/query",
-					"host": [
-						"{{URL}}"
-					],
-					"path": [
-						"query"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "mssql",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "a6c18f1f-ea46-4cdf-a6a7-dcc3384cc9ef",
-						"exec": [
-							"const mssqlConfig = JSON.parse(pm.globals.get('mssqlConfig'));",
-							"const query = pm.globals.get('sqlQuery');",
-							"",
-							"const body = { mssqlConfig, query };",
-							"",
-							"pm.globals.set('body', JSON.stringify(body, null, 2));",
-							"",
-							"console.log(`Set global body=\\n${pm.globals.get('body')}`);"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{{body}}",
-					"options": {
-						"raw": {}
-					}
-				},
-				"url": {
-					"raw": "{{URL}}/mssql",
-					"host": [
-						"{{URL}}"
-					],
-					"path": [
-						"mssql"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "mysql",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "a6c18f1f-ea46-4cdf-a6a7-dcc3384cc9ef",
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"mysqlConfig\": {\n    \t\"user\": \"danrusur_tester\",\n    \t\"password\": \"test@passw0rd\",\n    \t\"host\": \"qatools.ro\",\n    \t\"database\": \"danrusur_test_mysql\",\n    \t\"port\": 3306\n\t},\n\t\n\t\"query\": \"SELECT * FROM books;\"\n}\n\n",
-					"options": {
-						"raw": {}
-					}
-				},
-				"url": {
-					"raw": "{{URL}}/mysql",
-					"host": [
-						"{{URL}}"
-					],
-					"path": [
-						"mysql"
-					]
-				}
-			},
-			"response": []
-		}
-	],
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"id": "cc0430f6-c507-46b9-b21d-a9ebda4cc4fd",
-				"type": "text/javascript",
-				"exec": [
-					"// LOCAL",
-					"pm.environment.set('URL', 'http://localhost:1111');",
-					"",
-					"// HEROKU",
-					"pm.environment.set('URL', 'https://rest-sql.herokuapp.com');"
-				]
-			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"id": "202fd788-8db8-468c-bbb8-6a9d2baead7b",
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		}
-	],
-	"protocolProfileBehavior": {}
+  "info": {
+    "_postman_id": "577f6cbb-fea1-4dac-a982-82567df882fe",
+    "name": "rest-sql",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "mssql setup",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "bc0c2319-5721-449e-90ea-fa0e5444bb62",
+            "exec": [
+              "const mssqlConfig = {",
+              "    user: \"*\",",
+              "    password: \"*\",",
+              "    server: \"*\",",
+              "    database: \"*\"",
+              "};",
+              "",
+              "pm.globals.set('mssqlConfig', JSON.stringify(mssqlConfig));",
+              "",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "HEAD",
+        "header": [],
+        "url": {
+          "raw": "https://google.ro",
+          "protocol": "https",
+          "host": ["google", "ro"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "mssql get query text",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "28429614-2b28-4d00-9032-64e8d89fe909",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "    ",
+              "    pm.globals.set('sqlQuery', pm.response.text());",
+              "    ",
+              "    console.log(`Set global sqlQuery=\\n${pm.globals.get('sqlQuery')}`);",
+              "});",
+              "",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {}
+      },
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "...long SQL query",
+          "options": {
+            "raw": {
+              "language": "text"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL}}/query",
+          "host": ["{{URL}}"],
+          "path": ["query"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "mssql",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "a6c18f1f-ea46-4cdf-a6a7-dcc3384cc9ef",
+            "exec": [
+              "const mssqlConfig = JSON.parse(pm.globals.get('mssqlConfig'));",
+              "const query = pm.globals.get('sqlQuery');",
+              "",
+              "const body = { mssqlConfig, query };",
+              "",
+              "pm.globals.set('body', JSON.stringify(body, null, 2));",
+              "",
+              "console.log(`Set global body=\\n${pm.globals.get('body')}`);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{{body}}",
+          "options": {
+            "raw": {}
+          }
+        },
+        "url": {
+          "raw": "{{URL}}/mssql",
+          "host": ["{{URL}}"],
+          "path": ["mssql"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "mysql",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "a6c18f1f-ea46-4cdf-a6a7-dcc3384cc9ef",
+            "exec": [""],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "type": "text",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n\t\"mysqlConfig\": {\n    \t\"user\": \"danrusur_tester\",\n    \t\"password\": \"test@passw0rd\",\n    \t\"host\": \"qatools.ro\",\n    \t\"database\": \"danrusur_test_mysql\",\n    \t\"port\": 3306\n\t},\n\t\n\t\"query\": \"SELECT * FROM books;\"\n}\n\n",
+          "options": {
+            "raw": {}
+          }
+        },
+        "url": {
+          "raw": "{{URL}}/mysql",
+          "host": ["{{URL}}"],
+          "path": ["mysql"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "id": "cc0430f6-c507-46b9-b21d-a9ebda4cc4fd",
+        "type": "text/javascript",
+        "exec": [
+          "// LOCAL",
+          "pm.environment.set('URL', 'http://localhost:1111');",
+          "",
+          "// HEROKU",
+          "//pm.environment.set('URL', 'https://rest-sql.herokuapp.com');"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "id": "202fd788-8db8-468c-bbb8-6a9d2baead7b",
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "protocolProfileBehavior": {}
 }
